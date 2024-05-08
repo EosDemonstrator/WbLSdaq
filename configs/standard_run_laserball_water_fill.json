@@ -1,7 +1,7 @@
 {
 // Run settings
 name: "RUN",
-outfile: "/home/eos/data/water_fill/fiber_6_6/fiber_6_6-run0",
+outfile: "/home/eos/data/water_fill/laserball/laserball-run0",
 runtype: "nevents",
 events: 1700,
 repeat_times: 100,
