@@ -32,7 +32,7 @@ typedef struct DigitizerData {
 typedef struct {
   uint32_t type;
   uint32_t run_number;
-  char outfile[200];
+  char outdir[200];
   uint32_t run_type;
   uint32_t source_type;
   float source_x;
@@ -48,12 +48,10 @@ typedef struct {
 
 typedef struct {
   uint32_t type;
-  uint32_t date;
-  uint32_t time;
-  uint32_t daq_ver;
-  uint32_t runmask;
+  uint32_t run_number;
   uint64_t last_event_id;
-  uint32_t run_id;
+  char last_board_name[50];
+  uint64_t last_key;
 } RunEnd;
 
 /** Labels for received packet types. */
@@ -81,7 +79,7 @@ public:
   void End();
   size_t Digest(vector<Buffer*>& buffers);
   void Dispatch(vector<Buffer*>& buffers);
-  void Send(void* data, int len, int type);
+  bool Send(void* data, int len, int type);
 
 protected:
   int sockfd;
@@ -93,6 +91,8 @@ protected:
   RunStart rs;
   RunEnd re;
   uint64_t last_timestamp;
+  char last_board_name[50];
+  bool sent=true;
   std::vector<Decoder*> decoders;
 };
 

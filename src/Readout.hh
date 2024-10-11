@@ -56,6 +56,13 @@ void *readout(void *_data){
         runtype = new NEventsRun(nRepeat);
         if (!eventBufferSize) eventBufferSize = (size_t)(nEvents*1.5);
     }
+    else if (runtypestr == "totalevents"){
+        const string outfile = run["outfile"].cast<string>();
+        // Expects nEvents = 1, repeat_times = total events
+        const int totalEvents = run["repeat_times"].cast<int>();
+        cout << "Setting up a run with " << totalEvents << " events" << endl;
+        runtype = new TotalEventsRun(totalEvents);
+    }
     else if (runtypestr == "manual"){
         cout << "Setting up a manually-stopped  run..." << endl;
         const string outfile = run["outfile"].cast<string>();
@@ -275,11 +282,11 @@ void *readout(void *_data){
     }
     else if (dispstr == "tcp"){
         int nEvents = run["events"].cast<int>();
-	std::string address = disptbl["address"].cast<string>();
+	std::string address = disptbl["dispatch_address"].cast<string>();
         std::string port = disptbl["port"].cast<string>();
         RunStart rs;
         rs.run_number = run["run_number"].cast<int>();
-        strcpy(rs.outfile, run["outfile"].cast<string>().c_str());
+        strcpy(rs.outdir, run["outdir"].cast<string>().c_str());
         rs.run_type = run["run_type"].cast<int>();
         rs.source_type = run["source_type"].cast<int>();
         rs.source_x = run["source_x"].cast<double>();
